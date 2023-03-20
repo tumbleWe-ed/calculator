@@ -4,15 +4,15 @@ let addition = (num1,num2) => {
 }
 
 let subtraction = (num1,num2) => {
-    return num1 - num2;
+    return Number(num1) - Number(num2);
 }
 
 let multiplication = (num1,num2) => {
-    return num1 * num2;
+    return Number(num1) * Number(num2);
 }
 
 let division = (num1,num2) => {
-    return num1 / num2;
+    return Number(num1) / Number(num2);
 }
 
 
@@ -62,12 +62,13 @@ let onOperator;
 let onNum1 = true;
 let onNum2 = false;
 
-let output = String();
+let output = '0 '
 //Equal button
 let equal = document.querySelector('.btn-equal')
 
 
 //Operations
+
 
 add.addEventListener('click', () => {
     output = `${num1} + ${num2}` 
@@ -80,6 +81,15 @@ add.addEventListener('click', () => {
     console.log(output)
 })
 
+multiply.addEventListener('click', () => {
+    output = `${num1} × ${num2}` 
+    display.textContent = '×'
+    onNum2 = true
+    onNum1 = false
+    
+    onOperator = 'multiply'
+
+})
 
 
 
@@ -90,10 +100,6 @@ clearBtn.addEventListener('click', () => {
     onNum1 = true
     output = '0';
     display.textContent = output
-
-
-    console.log(`Num1: ${num1}`)
-    console.log(`Num2: ${num2}`)
 })
 
 /**backspaceBtn.addEventListener('click',() => {
@@ -194,36 +200,49 @@ btnNums.forEach(btn => {
        if(onNum1){
         output = `${num1}`
         display.textContent = output
-       } else if(onNum2) {
+       } else if(onNum2 && onOperator === 'add') {
         output = `${num1} + ${num2}` 
+        display.textContent = output
+       } else if(onNum2 && onOperator === 'multiply') {
+        output = `${num1} × ${num2}` 
         display.textContent = output
        }
     
-    console.log(`Num1: ${num1}`)
-    console.log(`Num2: ${num2}`)
+       console.log(`Num1: ${num1}`)
+       console.log(`Num2: ${num2}`)
+       console.log(output)
     })
     
 })
 
 btnsOnOperatorColumn.forEach(btn => {
     btn.addEventListener('click', () => {
-        //output = addition(num1,num2)
         if(onOperator === 'add'){
             //display.textContent = '+'
             output = `${addition(num1,num2)} +`
+        }else if(onOperator === 'multiply'){
+            output = `${num1} × ${num2}`   
         } 
+
         equal.addEventListener('click', () => {
-            output = output.slice(0,output.length - 2)
-            display.textContent = output
-        })
+            if(output.length != -1){
+                for(letter in output){
+                    if(output[letter] == '+' ){
+                        output = output.slice(0,output.length - 2)
+                    }else if(output[letter] == '+' ){
+                        output = output.slice(0,output.length - 2)
+                    }
+                }
+
+            if(onOperator === 'multiply'){
+                display.textContent = `${multiplication(num1,num2)}`
+            }
+            
+        }})
 
         display.textContent = output;
 
-    console.log(`Num1: ${num1}`)
-    console.log(`Num2: ${num2}`)
     })
 })
 
-console.log(`Num1: ${num1}`)
-console.log(`Num2: ${num2}`)
-console.log(output)
+
