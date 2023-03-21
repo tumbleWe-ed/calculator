@@ -1,19 +1,3 @@
-//Operations
-let addition = (num1,num2) => {
-    return Number(num1) + Number(num2);
-}
-
-let subtraction = (num1,num2) => {
-    return Number(num1) - Number(num2);
-}
-
-let multiplication = (num1,num2) => {
-    return Number(num1) * Number(num2);
-}
-
-let division = (num1,num2) => {
-    return Number(num1) / Number(num2);
-}
 
 
 // Input Numbers
@@ -54,15 +38,17 @@ let divide = document.querySelector('.btn-divide')
 
 let btnsOnOperatorColumn = Object.values(document.getElementsByClassName('operator-column'))
 
-let num1 = 0;
-let num2 = 0;
+let num1 = '';
+let num2 = '';
 
-let onOperator;
+let operator;
 
 let onNum1 = true;
 let onNum2 = false;
 
-let output = '0 '
+let firstTime = true
+
+let output = ''
 //Equal button
 let equal = document.querySelector('.btn-equal')
 
@@ -70,35 +56,16 @@ let equal = document.querySelector('.btn-equal')
 //Operations
 
 
-add.addEventListener('click', () => {
-    output = `${num1} + ${num2}` 
-    display.textContent = '+'
-    onNum2 = true
-    onNum1 = false
-    
-    onOperator = 'add'
-
-    console.log(output)
-})
-
-multiply.addEventListener('click', () => {
-    output = `${num1} × ${num2}` 
-    display.textContent = '×'
-    onNum2 = true
-    onNum1 = false
-    
-    onOperator = 'multiply'
-
-})
-
 
 
 //Output for Clear Button, Backspace Button
 clearBtn.addEventListener('click', () => {
-    num1 = 0;
-    num2 = 0;
+    num1 = '';
+    num2 = '';
     onNum1 = true
-    output = '0';
+    onNum2 = false
+    firstTime = true
+    output = '';
     display.textContent = output
 })
 
@@ -195,54 +162,97 @@ zero.addEventListener('click',() => {
 })
 
 
+
+//Operators
+let addition = (num1,num2) => {
+    return Number(num1) + Number(num2);
+}
+
+let subtraction = (num1,num2) => {
+    return Number(num1) - Number(num2);
+}
+
+let multiplication = (num1,num2) => {
+    return Number(num1) * Number(num2);
+}
+
+let division = (num1,num2) => {
+    return Number(num1) / Number(num2);
+}
+
 btnNums.forEach(btn => {
-    btn.addEventListener('click',() => {
-       if(onNum1){
-        output = `${num1}`
-        display.textContent = output
-       } else if(onNum2 && onOperator === 'add') {
-        output = `${num1} + ${num2}` 
-        display.textContent = output
-       } else if(onNum2 && onOperator === 'multiply') {
-        output = `${num1} × ${num2}` 
-        display.textContent = output
-       }
-    
-       console.log(`Num1: ${num1}`)
-       console.log(`Num2: ${num2}`)
-       console.log(output)
+    btn.addEventListener('click', () => {
+        if(onNum1) {
+            display.textContent = num1
+            console.log(`num1: ${num1}`)
+            console.log(`num2: ${num2}`)
+        }else if(onNum2) {
+            display.textContent = num2
+            console.log(`num1: ${num1}`)
+            console.log(`num2: ${num2}`)
+        }
     })
     
 })
+console.log(onNum1)
 
+//Operations
 btnsOnOperatorColumn.forEach(btn => {
-    btn.addEventListener('click', () => {
-        if(onOperator === 'add'){
-            //display.textContent = '+'
-            output = `${addition(num1,num2)} +`
-        }else if(onOperator === 'multiply'){
-            output = `${num1} × ${num2}`   
-        } 
 
-        equal.addEventListener('click', () => {
-            if(output.length != -1){
-                for(letter in output){
-                    if(output[letter] == '+' ){
-                        output = output.slice(0,output.length - 2)
-                    }else if(output[letter] == '+' ){
-                        output = output.slice(0,output.length - 2)
-                    }
-                }
+    
+    btn.addEventListener('click', (e) => {
+        if(firstTime == true){
+            firstTime = false
+            if (e.target.textContent === '×') {
+                operator = 'multiply'
+            }
 
-            if(onOperator === 'multiply'){
-                display.textContent = `${multiplication(num1,num2)}`
+            if(onNum1) {
+                onNum1 = false
+                onNum2 = true
+            }else if(onNum2) {
+                onNum1 = true
+                onNum2 = false
+            }
+
+        }else if (firstTime == true){
+            if(onNum1) {
+                onNum1 = false
+                onNum2 = true
+            }else if(onNum2) {
+                onNum1 = true
+                onNum2 = false
             }
             
-        }})
+            if(operator == 'multiply'){
+                num1 *= num2
+                num2 = ''
+                console.log(onNum1,onNum2)
+                display.textContent = num1
 
-        display.textContent = output;
+            }
 
+        }else {
+            if(operator == 'multiply'){
+                num1 *= num2
+                num2 = ''
+                console.log(onNum1,onNum2)
+                display.textContent = num1
+
+            }
+
+        
+        }
     })
 })
 
-
+equal.addEventListener('click', () => {
+    if(operator == 'multiply'){
+        num1 *= num2
+    }
+    num2 = ''
+    display.textContent = num1
+    firstTime = true
+    onNum1 = true
+    onNum2 = false
+})
