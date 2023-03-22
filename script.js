@@ -198,13 +198,18 @@ console.log(onNum1)
 
 //Operations
 btnsOnOperatorColumn.forEach(btn => {
-
-    
     btn.addEventListener('click', (e) => {
         if(firstTime == true){
             firstTime = false
             if (e.target.textContent === '×') {
                 operator = 'multiply'
+            } else if (e.target.textContent === '+') {
+                operator = 'add'
+            }else if(e.target.textContent === '-') {
+                operator = 'subtract'
+            }else if(e.target.textContent === '÷') {
+                operator = 'divide'
+                console.log('On Divide')
             }
 
             if(onNum1) {
@@ -213,23 +218,6 @@ btnsOnOperatorColumn.forEach(btn => {
             }else if(onNum2) {
                 onNum1 = true
                 onNum2 = false
-            }
-
-        }else if (firstTime == true){
-            if(onNum1) {
-                onNum1 = false
-                onNum2 = true
-            }else if(onNum2) {
-                onNum1 = true
-                onNum2 = false
-            }
-            
-            if(operator == 'multiply'){
-                num1 *= num2
-                num2 = ''
-                console.log(onNum1,onNum2)
-                display.textContent = num1
-
             }
 
         }else {
@@ -239,8 +227,20 @@ btnsOnOperatorColumn.forEach(btn => {
                 console.log(onNum1,onNum2)
                 display.textContent = num1
 
+            }else if (operator == 'add') {
+                num1 = Number(num1) + Number(num2)
+                num2 = ''
+                display.textContent = num1
+            }else if(operator === 'subtract') {
+                num1 = subtraction(num1,num2)
+                num2 = ''
+                display.textContent = num1
+            }else if(operator === 'divide') {
+                num1 = Number(num1) / Number(num2)
+                num2 = ''
+                display.textContent = num1
             }
-
+ 
         
         }
     })
@@ -249,10 +249,21 @@ btnsOnOperatorColumn.forEach(btn => {
 equal.addEventListener('click', () => {
     if(operator == 'multiply'){
         num1 *= num2
+    }else if(operator == 'add') {
+        console.log(num1 = Number(num1) + Number(num2))
+    }else if (operator == 'subtract') {
+        num1 = subtraction(num1,num2)
+    }else if (operator == 'divide') {
+        console.log(num1 = Number(num1) / Number(num2))
+
     }
-    num2 = ''
-    display.textContent = num1
-    firstTime = true
-    onNum1 = true
-    onNum2 = false
+
+
+
+        num2 = ''
+        display.textContent = num1
+        firstTime = true
+        onNum1 = true
+        onNum2 = false
+
 })
